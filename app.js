@@ -1553,15 +1553,160 @@ function nextQuiz() {
   renderQuiz();
 }
 
+function enterPanel(panel) {
+  if (!panel) return;
+  panel.classList.remove("is-visible");
+  panel.classList.add("is-entering");
+  requestAnimationFrame(() => {
+    panel.classList.add("is-visible");
+  });
+  window.setTimeout(() => {
+    panel.classList.remove("is-entering");
+  }, 360);
+}
+
+function activateTab(tabId) {
+  const targetPanel = document.getElementById(tabId);
+  if (!targetPanel) return;
+
+  document.querySelectorAll(".tab-button").forEach((item) => {
+    item.classList.toggle("active", item.dataset.tab === tabId);
+  });
+  document.querySelectorAll(".tab-panel").forEach((panel) => {
+    const isTarget = panel.id === tabId;
+    panel.classList.toggle("active", isTarget);
+    panel.classList.remove("is-visible", "is-entering");
+    if (isTarget) {
+      enterPanel(panel);
+    }
+  });
+}
+
+function syncTabWithHash() {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return;
+  const tabIds = ["classification", "regression", "clustering", "applications"];
+  if (tabIds.includes(hash)) {
+    activateTab(hash);
+  }
+}
+
+function syncSinglePageState() {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return;
+
+  const tabIds = ["classification", "regression", "clustering", "applications"];
+  if (tabIds.includes(hash)) {
+    activateTab(hash);
+    return;
+  }
+
+  if (hash === "modules") {
+    activateTab("classification");
+  }
+}
+
+function setCurrentSectionLink(sectionId) {
+  document.querySelectorAll("[data-section-link]").forEach((link) => {
+    link.classList.toggle("is-current", link.dataset.sectionLink === sectionId);
+  });
+}
+
 function bindTabs() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", () => {
-      document.querySelectorAll(".tab-button").forEach((item) => item.classList.remove("active"));
-      document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
-      button.classList.add("active");
-      document.getElementById(button.dataset.tab).classList.add("active");
+      activateTab(button.dataset.tab);
+      history.replaceState(null, "", `#${button.dataset.tab}`);
     });
   });
+
+  syncSinglePageState();
+}
+
+function bindAnchorLinks() {
+  document.querySelectorAll("[data-tab-target]").forEach((link) => {
+    link.addEventListener("click", () => {
+      activateTab(link.dataset.tabTarget);
+    });
+  });
+
+  window.addEventListener("hashchange", syncSinglePageState);
+}
+
+function bindSectionTracking() {
+  const sectionIds = [
+    "positioning",
+    "guide",
+    "modules",
+    "featured-examples",
+    "faq",
+    "roadmap",
+    "about",
+  ];
+
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+      if (!visible.length) return;
+      setCurrentSectionLink(visible[0].target.id);
+    },
+    {
+      threshold: prefersReducedMotion ? 0.2 : 0.35,
+      rootMargin: "-12% 0px -45% 0px",
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+
+  const currentHash = window.location.hash.replace("#", "");
+  if (sectionIds.includes(currentHash)) {
+    setCurrentSectionLink(currentHash);
+  } else {
+    setCurrentSectionLink("positioning");
+  }
+}
+
+function initRevealOnScroll() {
+  const targets = document.querySelectorAll(
+    ".content-section, .hero, .tab-bar, .panel-grid, .long-panel, .quiz-layout, .app-card-grid"
+  );
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    targets.forEach((item) => item.classList.add("is-revealed"));
+    return;
+  }
+
+  targets.forEach((item, index) => {
+    item.classList.add("reveal-on-scroll");
+    item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 40}ms`);
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -8% 0px",
+    }
+  );
+
+  targets.forEach((item) => observer.observe(item));
 }
 
 function bindClassification() {
@@ -1652,8 +1797,42 @@ function bindQuiz() {
   document.getElementById("quizNextBtn").addEventListener("click", nextQuiz);
 }
 
+function initIntroOverlay() {
+  const overlay = document.getElementById("introOverlay");
+  if (!overlay) {
+    document.body.classList.add("page-ready");
+    return;
+  }
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    overlay.remove();
+    document.body.classList.add("page-ready");
+    document.body.classList.remove("is-intro-active");
+    return;
+  }
+
+  document.body.classList.add("is-intro-active");
+
+  window.setTimeout(() => {
+    document.body.classList.add("page-ready");
+  }, 260);
+
+  const finishIntro = () => {
+    overlay.classList.add("is-hidden");
+    document.body.classList.remove("is-intro-active");
+    window.setTimeout(() => overlay.remove(), 240);
+  };
+
+  overlay.addEventListener("animationend", finishIntro, { once: true });
+}
+
 function init() {
+  initIntroOverlay();
   bindTabs();
+  bindAnchorLinks();
+  bindSectionTracking();
+  initRevealOnScroll();
   bindClassification();
   bindRegression();
   bindClustering();

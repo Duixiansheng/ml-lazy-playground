@@ -4,10 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>对先生小课堂</title>
+    <link rel="icon" type="image/png" href="./ml-favicon-option-3.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="page-shell">
+    <div class="intro-overlay" id="introOverlay" aria-hidden="true">
+      <div class="intro-overlay__aurora"></div>
+      <div class="intro-overlay__grid"></div>
+      <div class="intro-overlay__content">
+        <span class="intro-overlay__eyebrow">Machine Learning Playground</span>
+        <h2 class="intro-overlay__title">对先生小课堂</h2>
+        <p class="intro-overlay__subtitle">从直觉开始理解分类、回归、聚类与常见模型。</p>
+      </div>
+    </div>
+
+    <div class="page-shell" id="top">
       <header class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Python 启动 · 浏览器交互 · 零额外依赖</p>
@@ -40,6 +51,137 @@
         </aside>
       </header>
 
+      <nav class="page-nav" aria-label="页面导航">
+        <a class="page-nav__link" href="#positioning" data-section-link="positioning">定位</a>
+        <a class="page-nav__link" href="#guide" data-section-link="guide">导览</a>
+        <a class="page-nav__link" href="#modules" data-section-link="modules">核心模块</a>
+        <a class="page-nav__link" href="#featured-examples" data-section-link="featured-examples">示例</a>
+        <a class="page-nav__link" href="#faq" data-section-link="faq">FAQ</a>
+        <a class="page-nav__link" href="#roadmap" data-section-link="roadmap">更新</a>
+        <a class="page-nav__link" href="#about" data-section-link="about">About</a>
+      </nav>
+
+      <section id="positioning" class="content-section intro-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">项目定位 · 为什么打开它</p>
+            <h2>把机器学习讲成可以直接上手的学习工具</h2>
+          </div>
+          <p class="section-copy">
+            对先生小课堂不是一页抽象概念列表，而是一套给项目组成员快速建立直觉的交互式学习页面。它适合刚接触机器学习、需要先看懂思路再回到项目里的人，也适合带组员讲解时作为统一入口。
+          </p>
+        </div>
+        <div class="feature-strip">
+          <article class="feature-chip">
+            <h3>先理解再记公式</h3>
+            <p>用可视化和小实验先建立感觉，再去理解分类、回归、聚类和模型术语。</p>
+          </article>
+          <article class="feature-chip">
+            <h3>适合带人一起看</h3>
+            <p>每个模块都有简洁解释，便于组内交流、快速讲解和统一认知。</p>
+          </article>
+          <article class="feature-chip">
+            <h3>打开就能直接体验</h3>
+            <p>纯静态网页，无需登录或安装环境，适合随手打开、随时演示。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="guide" class="content-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">功能导览 · 从哪里开始</p>
+            <h2>你可以在这里快速完成什么</h2>
+          </div>
+          <p class="section-copy">
+            如果你是第一次打开，建议先走一遍下面这些入口。每一张导览卡都指向一个明确模块，不需要先把整页内容全部看完。
+          </p>
+        </div>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <span class="app-tag">快速体验</span>
+            <h3>先看分类边界怎么变</h3>
+            <p>从最直观的二维分类开始，理解“模型为什么会这么分”。</p>
+            <a class="inline-link" href="#classification" data-tab-target="classification">进入分类游乐场</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">核心模块</span>
+            <h3>看回归如何一步步拟合</h3>
+            <p>观察 Loss、学习率和参数更新，快速建立训练过程直觉。</p>
+            <a class="inline-link" href="#regression" data-tab-target="regression">打开回归实验室</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">学习入口</span>
+            <h3>理解无监督聚类</h3>
+            <p>看看没有标签时，模型如何只凭相似性把数据分组。</p>
+            <a class="inline-link" href="#clustering" data-tab-target="clustering">查看聚类雷达站</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">知识补全</span>
+            <h3>补模型库和术语词典</h3>
+            <p>把常见模型家族和页面里的核心名词串起来，适合查漏补缺。</p>
+            <a class="inline-link" href="#applications" data-tab-target="applications">前往应用与词典</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">常见问题</span>
+            <h3>先了解怎么使用最省事</h3>
+            <p>如果你在想适合谁、会不会保存数据、手机能不能用，先看 FAQ。</p>
+            <a class="inline-link" href="#faq">查看常见问题</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">项目状态</span>
+            <h3>看看这个站目前做到哪了</h3>
+            <p>这里有简短的版本状态、正在优化的细节和后续方向。</p>
+            <a class="inline-link" href="#roadmap">查看更新日志</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="featured-examples" class="content-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">精选示例 · 推荐体验</p>
+            <h2>三条最值得先点开的体验路径</h2>
+          </div>
+          <p class="section-copy">
+            如果你只准备花几分钟，这里给你三条最有效的入口。它们分别对应入门直觉、训练过程和知识补全三种典型使用方式。
+          </p>
+        </div>
+        <div class="example-grid">
+          <article class="example-card">
+            <span class="app-tag">入门示例</span>
+            <h3>5 分钟看懂分类边界</h3>
+            <p>先生成示例点，再切换 kNN 和线性分类器，直观看到边界为什么会弯、为什么会直。</p>
+            <div class="example-meta">
+              <span>可视化</span>
+              <span>初学者友好</span>
+            </div>
+            <a class="button-link" href="#classification" data-tab-target="classification">立即体验</a>
+          </article>
+          <article class="example-card">
+            <span class="app-tag">进阶示例</span>
+            <h3>观察 Loss 如何被一步步压低</h3>
+            <p>在回归实验室里调学习率、点训练一步，适合理解参数、误差和梯度下降之间的关系。</p>
+            <div class="example-meta">
+              <span>训练过程</span>
+              <span>可反复试验</span>
+            </div>
+            <a class="button-link" href="#regression" data-tab-target="regression">进入实验</a>
+          </article>
+          <article class="example-card">
+            <span class="app-tag">知识点示例</span>
+            <h3>用小游戏和词典串起真实应用</h3>
+            <p>如果你更关心“实际项目里该怎么判断任务类型”，可以直接去应用区块和术语词典。</p>
+            <div class="example-meta">
+              <span>真实场景</span>
+              <span>适合带组员</span>
+            </div>
+            <a class="button-link" href="#applications" data-tab-target="applications">查看内容</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="modules" class="content-section module-shell">
       <nav class="tab-bar" aria-label="教学模块">
         <button class="tab-button active" data-tab="classification">1. 分类游乐场</button>
         <button class="tab-button" data-tab="regression">2. 回归实验室</button>
@@ -293,6 +435,102 @@
           </article>
         </section>
       </main>
+      </section>
+
+      <section id="faq" class="content-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">FAQ · 常见问题</p>
+            <h2>在开始之前，你可能会先想问这些</h2>
+          </div>
+          <p class="section-copy">
+            这一部分只回答最实际的问题，帮助第一次进入的人快速判断怎么用、适不适合自己。
+          </p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>这个网站更适合谁使用？</summary>
+            <p>适合刚接触机器学习、需要先建立直觉的人，也适合项目负责人或组内同学拿它做快速讲解和统一理解。</p>
+          </details>
+          <details class="faq-item">
+            <summary>需要登录或安装环境吗？</summary>
+            <p>不需要。它是一个纯静态网页，打开就能用，所有交互都在浏览器本地完成。</p>
+          </details>
+          <details class="faq-item">
+            <summary>我在页面里的操作会被保存吗？</summary>
+            <p>当前不会。这里更像一个随开随用的学习游乐场，刷新后会回到默认状态。</p>
+          </details>
+          <details class="faq-item">
+            <summary>手机上可以正常使用吗？</summary>
+            <p>可以浏览和基础操作，页面已经做了移动端排版适配；如果想更舒适地看图和讲解，桌面端体验会更完整。</p>
+          </details>
+          <details class="faq-item">
+            <summary>更适合快速浏览，还是系统学习？</summary>
+            <p>两种都可以。你可以只挑一个模块快速体验，也可以按分类、回归、聚类、应用与词典的顺序完整走一遍。</p>
+          </details>
+          <details class="faq-item">
+            <summary>这个网站后面还会继续更新吗？</summary>
+            <p>会。当前版本已经具备完整的入门教学路径，后续会继续补内容深度、细节体验和更多示例。</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="roadmap" class="content-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">Roadmap · 更新日志</p>
+            <h2>这是一个正在持续打磨中的小课堂</h2>
+          </div>
+          <p class="section-copy">
+            当前版本已经具备完整可用的交互入口，接下来的重点不是做复杂功能，而是继续补齐体验细节和内容密度。
+          </p>
+        </div>
+        <div class="roadmap-grid">
+          <article class="roadmap-card">
+            <span class="status-dot status-done"></span>
+            <p class="roadmap-label">已完成 · v0.3</p>
+            <h3>视觉升级与主流程整理</h3>
+            <p>已完成黑紫风界面、首屏进入动画、教学模块整合、基础内容结构补全和页内导航。</p>
+          </article>
+          <article class="roadmap-card">
+            <span class="status-dot status-progress"></span>
+            <p class="roadmap-label">正在优化</p>
+            <h3>移动端细节与引导节奏</h3>
+            <p>继续打磨模块入口顺序、信息密度、卡片节奏和小屏设备上的阅读流畅度。</p>
+          </article>
+          <article class="roadmap-card">
+            <span class="status-dot status-next"></span>
+            <p class="roadmap-label">计划新增</p>
+            <h3>更多示例与更完整的模型入口</h3>
+            <p>后续考虑补充更多真实任务示例、扩展知识点索引，以及更细的学习路径提示。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" class="content-section">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">About This Project · 项目说明</p>
+            <h2>这是一个为“先讲明白再深入”而做的小项目</h2>
+          </div>
+          <p class="section-copy">
+            这个网站最初是为了给组内成员提供一个统一、低门槛、可直接演示的机器学习学习入口。当前阶段已经形成可公开浏览的静态站版本，技术上保持 HTML、CSS、JavaScript 的轻量实现，后续会继续围绕教学清晰度、内容完整度和使用体验做小步迭代。
+          </p>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div>
+          <p class="site-footer__title">对先生小课堂</p>
+          <p class="site-footer__copy">一个面向项目组成员的机器学习直觉学习站，强调可视化、轻交互和随开随用。</p>
+        </div>
+        <div class="site-footer__meta">
+          <span>当前版本：v0.3</span>
+          <span>最后更新：2026-04-04</span>
+          <a class="inline-link" href="https://github.com/duixiansheng/ml-lazy-playground" target="_blank" rel="noreferrer">GitHub 项目</a>
+          <a class="inline-link" href="#top">返回顶部</a>
+        </div>
+      </footer>
     </div>
 
     <script src="app.js"></script>
