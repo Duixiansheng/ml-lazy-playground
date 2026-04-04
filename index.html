@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>对先生小课堂</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Python 启动 · 浏览器交互 · 零额外依赖</p>
+          <h1>对先生小课堂</h1>
+          <p class="hero-lead">
+            这是对先生给组员做的机器学习学习用品。你不用先懂公式，先点、先看、先玩，再顺着解释去理解监督学习、回归、聚类、模型家族和真实应用；如果遇到名词卡住了，页面下方还有专门的名词词典。
+          </p>
+          <div class="hero-badges">
+            <span>分类</span>
+            <span>回归</span>
+            <span>聚类</span>
+            <span>模型库</span>
+            <span>应用判断小游戏</span>
+            <span>名词词典</span>
+          </div>
+        </div>
+        <aside class="hero-side">
+          <div class="hero-card">
+            <h2>3 步上手</h2>
+            <ol>
+              <li>先在每个模块里点“生成示例数据”。</li>
+              <li>再动滑块、点按钮，看图形如何变化。</li>
+              <li>最后读右侧解释，把图和概念对上。</li>
+            </ol>
+          </div>
+          <div class="hero-card">
+            <h2>给组员怎么用</h2>
+            <p>把它当成对先生给组员做的学习用品来用：先用模块建立直觉，再查模型和名词，最后回到项目任务里对应应用场景。</p>
+          </div>
+        </aside>
+      </header>
+
+      <nav class="tab-bar" aria-label="教学模块">
+        <button class="tab-button active" data-tab="classification">1. 分类游乐场</button>
+        <button class="tab-button" data-tab="regression">2. 回归实验室</button>
+        <button class="tab-button" data-tab="clustering">3. 聚类雷达站</button>
+        <button class="tab-button" data-tab="applications">4. 应用、游戏与词典</button>
+      </nav>
+
+      <main>
+        <section id="classification" class="tab-panel active">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">监督学习 · 分类</p>
+              <h2>分类游乐场</h2>
+            </div>
+            <p class="section-copy">
+              你可以自己点数据点，扮演“老师”给模型示例，再看模型如何画出分类边界。这一块适合对先生带组员讲“模型为什么会这么分”。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>操作面板</h3>
+              <label class="field">
+                <span>数据工具</span>
+                <select id="classTool">
+                  <option value="A">添加蓝色类</option>
+                  <option value="B">添加橙色类</option>
+                  <option value="inspect">点击查看预测</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>模型</span>
+                <select id="classModel">
+                  <option value="knn">k 近邻 kNN</option>
+                  <option value="linear">线性分类器</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>k 值 <strong id="knnValue">3</strong></span>
+                <input id="knnSlider" type="range" min="1" max="9" step="2" value="3" />
+              </label>
+              <div class="button-row">
+                <button id="classSampleBtn">生成示例数据</button>
+                <button id="classClearBtn" class="secondary">清空</button>
+              </div>
+              <div class="micro-note">
+                <p>建议先生成示例数据，再把模型从 kNN 切到线性分类器，感受“弯边界”和“直边界”的区别。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>可视化画布</h3>
+              <canvas id="classificationCanvas" width="680" height="440"></canvas>
+              <div class="legend">
+                <span><i class="dot dot-a"></i> 蓝色类</span>
+                <span><i class="dot dot-b"></i> 橙色类</span>
+                <span><i class="dot dot-query"></i> 预测点</span>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>详细解释</h3>
+              <div id="classificationExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="regression" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">监督学习 · 回归</p>
+              <h2>回归实验室</h2>
+            </div>
+            <p class="section-copy">
+              这里演示“用一条线去逼近一堆点”。你会看到梯度下降如何一步步降低误差，适合组员快速建立参数和训练过程的直觉。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>操作面板</h3>
+              <label class="field">
+                <span>学习率 <strong id="learningRateValue">0.04</strong></span>
+                <input id="learningRateSlider" type="range" min="1" max="20" step="1" value="4" />
+              </label>
+              <label class="field">
+                <span>噪声强度 <strong id="noiseValue">1.4</strong></span>
+                <input id="noiseSlider" type="range" min="0" max="30" step="1" value="14" />
+              </label>
+              <div class="button-row">
+                <button id="regressionSampleBtn">生成示例数据</button>
+                <button id="regressionStepBtn">训练一步</button>
+              </div>
+              <div class="button-row">
+                <button id="regressionAutoBtn">自动训练</button>
+                <button id="regressionResetBtn" class="secondary">重置模型</button>
+              </div>
+              <div class="micro-note">
+                <p>重点看 Loss 是否下降。学习率太小会学得慢，太大可能来回震荡。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>可视化画布</h3>
+              <canvas id="regressionCanvas" width="680" height="440"></canvas>
+              <div class="stat-row">
+                <div class="stat-card">
+                  <span>斜率 w</span>
+                  <strong id="weightValue">0.00</strong>
+                </div>
+                <div class="stat-card">
+                  <span>截距 b</span>
+                  <strong id="biasValue">0.00</strong>
+                </div>
+                <div class="stat-card">
+                  <span>损失 Loss</span>
+                  <strong id="lossValue">0.00</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>详细解释</h3>
+              <div id="regressionExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="clustering" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">无监督学习 · 聚类</p>
+              <h2>聚类雷达站</h2>
+            </div>
+            <p class="section-copy">
+              这里没有正确答案标签，模型只能靠“距离近不近”自己把数据分成几堆。对先生可以用它给组员讲“没有标签时模型还能做什么”。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>操作面板</h3>
+              <label class="field">
+                <span>聚类数 K</span>
+                <select id="clusterK">
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                </select>
+              </label>
+              <div class="button-row">
+                <button id="clusterSampleBtn">生成示例数据</button>
+                <button id="clusterInitBtn">初始化中心</button>
+              </div>
+              <div class="button-row">
+                <button id="clusterStepBtn">执行一步</button>
+                <button id="clusterAutoBtn">自动迭代</button>
+              </div>
+              <div class="micro-note">
+                <p>观察两件事：每个点先找最近中心，中心再移动到这一组点的平均位置。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>可视化画布</h3>
+              <canvas id="clusteringCanvas" width="680" height="440"></canvas>
+              <div class="legend">
+                <span><i class="dot dot-c1"></i> 簇 1</span>
+                <span><i class="dot dot-c2"></i> 簇 2</span>
+                <span><i class="dot dot-c3"></i> 簇 3</span>
+                <span><i class="dot dot-c4"></i> 簇 4</span>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>详细解释</h3>
+              <div id="clusteringExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="applications" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">真实应用 · 任务判断</p>
+              <h2>应用、小游戏与名词词典</h2>
+            </div>
+            <p class="section-copy">
+              最后一部分把前面的概念落到真实世界里，再用一个小游戏帮你分清“这题该用哪种机器学习思路”，补上常见模型库，最后再把常见名词全部拆成大白话。
+            </p>
+          </div>
+
+          <article class="panel long-panel">
+            <h3>常见模型库</h3>
+            <p class="section-copy glossary-copy">
+              这一块专门给组员看“机器学习到底有哪些常见模型”。不用一开始就背公式，先知道每类模型大概擅长什么、什么时候会用到。
+            </p>
+            <div class="glossary-grid" id="modelCards"></div>
+          </article>
+
+          <div class="app-card-grid" id="applicationCards"></div>
+
+          <div class="quiz-layout">
+            <article class="panel">
+              <h3>懒人挑战赛</h3>
+              <p class="quiz-intro">
+                规则很简单：看到一个真实场景，选你觉得最合适的机器学习任务类型。答完后，右侧会告诉你为什么。
+              </p>
+              <div class="quiz-box">
+                <p class="quiz-label">当前题目</p>
+                <h4 id="quizQuestion"></h4>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="button-row">
+                  <button id="quizSubmitBtn">提交答案</button>
+                  <button id="quizNextBtn" class="secondary">下一题</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>答案解析</h3>
+              <div id="quizExplain"></div>
+            </article>
+          </div>
+
+          <article class="panel long-panel">
+            <h3>给初学者的超短总结</h3>
+            <div class="summary-grid">
+              <div>
+                <h4>分类</h4>
+                <p>已经知道类别名字，让模型学会“把新东西分到哪个桶里”。</p>
+              </div>
+              <div>
+                <h4>回归</h4>
+                <p>目标不是分类，而是预测一个连续数值，比如价格、温度、产量。</p>
+              </div>
+              <div>
+                <h4>聚类</h4>
+                <p>没有标准答案，先让模型自己发现“哪些东西看起来像一伙”。</p>
+              </div>
+              <div>
+                <h4>分割</h4>
+                <p>给图像里每个像素分配类别，常用于遥感、医学影像、自动驾驶。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel long-panel">
+            <h3>对先生词典</h3>
+            <p class="section-copy glossary-copy">
+              这一页出现过的机器学习术语，基本都能在这里查到。适合组员碰到名词时直接往下翻，不用来回搜资料。
+            </p>
+            <div class="glossary-grid" id="glossaryCards"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
