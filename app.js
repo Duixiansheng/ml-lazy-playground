@@ -1,20 +1,20 @@
 const palette = {
-  blue: "#79a9ff",
-  blueFill: "rgba(65, 114, 225, 0.18)",
-  orange: "#ffb578",
-  orangeFill: "rgba(250, 154, 81, 0.12)",
-  green: "#67dfbd",
-  rose: "#c09dff",
-  text: "#e8f1ff",
-  soft: "#97adc9",
-  grid: "rgba(154, 187, 241, 0.12)",
-  bg: "#0b1729",
-  cluster: ["#79a9ff", "#ffb578", "#6be0bd", "#c6a2f9"],
+  blue: "#41628b",
+  blueFill: "rgba(65, 98, 139, 0.13)",
+  orange: "#ad5836",
+  orangeFill: "rgba(173, 88, 54, 0.11)",
+  green: "#34694f",
+  rose: "#79568e",
+  text: "#201e1b",
+  soft: "#696256",
+  grid: "rgba(105, 98, 86, 0.17)",
+  bg: "#fffefa",
+  cluster: ["#41628b", "#ad5836", "#34694f", "#79568e"],
   clusterFill: [
-    "rgba(100, 144, 236, 0.14)",
-    "rgba(250, 168, 105, 0.11)",
-    "rgba(107, 224, 189, 0.11)",
-    "rgba(198, 162, 249, 0.11)",
+    "rgba(65, 98, 139, 0.13)",
+    "rgba(173, 88, 54, 0.11)",
+    "rgba(52, 105, 79, 0.12)",
+    "rgba(121, 86, 142, 0.12)",
   ],
 };
 
@@ -334,7 +334,7 @@ const glossaryItems = [
     tag: "分类术语",
     short: "模型心里那条“从这边算 A、从那边算 B”的分界线。",
     detail: "二维图里看起来像一条线或一片弯曲边界；高维空间里它本质上也是一种分割面。",
-    example: "分类游乐场里背景颜色变化的位置，就是边界在起作用。",
+    example: "分类实验里背景颜色变化的位置，就是边界在起作用。",
   },
   {
     term: "kNN",
@@ -432,7 +432,7 @@ const glossaryItems = [
     tag: "训练术语",
     short: "模型当前错得有多厉害的量化指标。",
     detail: "Loss 越大说明模型预测和真实值差得越远，训练目标通常就是让它越来越小。",
-    example: "回归实验室里 Loss 下降，说明橙线更贴近蓝点了。",
+    example: "回归实验里 Loss 下降，说明橙线更贴近蓝点了。",
   },
   {
     term: "梯度下降",
@@ -460,7 +460,7 @@ const glossaryItems = [
     tag: "聚类术语",
     short: "一种经典聚类方法：先分组，再更新中心，不断循环。",
     detail: "它通过最小化组内距离，让同一簇里的样本尽量彼此接近。",
-    example: "聚类雷达站里你看到的就是 K-Means 的简化过程。",
+    example: "聚类实验里你看到的就是 K-Means 的简化过程。",
   },
   {
     term: "DBSCAN",
@@ -643,7 +643,7 @@ function drawAxes(ctx, canvas, bounds, labels) {
     ctx.stroke();
   }
 
-  ctx.strokeStyle = "rgba(173, 201, 245, 0.37)";
+  ctx.strokeStyle = "rgba(105, 98, 86, 0.52)";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(pad, pad);
@@ -895,18 +895,18 @@ function updateClassificationExplain() {
   const blocks = [];
 
   blocks.push({
-    title: "偷懒版一句话",
+    title: "概念",
     html: `<p>分类就是：先给模型看一些“这是什么类、那是什么类”的样本，再让它猜新样本属于哪一类。</p>`,
   });
 
   blocks.push({
-    title: "你现在看到的是什么",
+    title: "读图",
     html: `
       <ul>
         <li>蓝色点和橙色点是你喂给模型的已知样本。</li>
         <li>背景浅色区域代表模型认为“这片地方更像哪一类”。</li>
         <li>当前数据量：蓝色类 ${countA} 个，橙色类 ${countB} 个。</li>
-        <li>当前模型：<span class="inline-pill">${classificationState.model === "knn" ? "k 近邻 kNN" : "线性分类器"}</span></li>
+        <li>当前模型：<span class="inline-pill">${classificationState.model === "knn" ? "k 近邻（kNN）" : "线性分类器"}</span></li>
       </ul>
     `,
   });
@@ -939,14 +939,14 @@ function updateClassificationExplain() {
 
   if (query && classificationState.query) {
     blocks.push({
-      title: "当前预测点解读",
+      title: "预测结果",
       html: `
         <ul>
-          <li>你点的位置：${formatPoint(classificationState.query)}</li>
-          <li>模型判断：<span class="${
+          <li>坐标：${formatPoint(classificationState.query)}</li>
+          <li>预测类别：<span class="${
             query.label === "A" ? "good" : "warn"
           }">${query.label === "A" ? "蓝色类" : "橙色类"}</span></li>
-          <li>置信感：${(query.confidence * 100).toFixed(1)}%</li>
+          <li>置信度：${(query.confidence * 100).toFixed(1)}%</li>
           <li>这不是“真理”，只是模型根据已有样本得出的当前判断。</li>
         </ul>
       `,
@@ -954,7 +954,7 @@ function updateClassificationExplain() {
   }
 
   blocks.push({
-    title: "现实里怎么用",
+    title: "应用示例",
     html: `
       <ul>
         <li>垃圾邮件过滤：把邮件分成垃圾或正常。</li>
@@ -1085,7 +1085,7 @@ function drawRegression() {
     };
     const a = toCanvasPoint(canvas, bounds, point);
     const b = toCanvasPoint(canvas, bounds, predicted);
-    ctx.strokeStyle = "rgba(192, 157, 255, 0.34)";
+    ctx.strokeStyle = "rgba(121, 86, 142, 0.4)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(a.x, a.y);
@@ -1103,31 +1103,31 @@ function updateRegressionExplain() {
   const history = regressionState.lossHistory;
   const trend =
     history.length < 2
-      ? "还没开始训练"
+      ? "尚未训练"
       : history[history.length - 1] < history[history.length - 2]
       ? "Loss 在下降，说明直线正在逼近规律。"
       : "Loss 没有下降，说明学习率可能偏大，或者数据比较嘈杂。";
 
   renderBlocks("regressionExplain", [
     {
-      title: "偷懒版一句话",
+      title: "概念",
       html: `<p>回归就是：模型不再回答“是哪一类”，而是回答“具体是多少”。</p>`,
     },
     {
-      title: "你现在看到的是什么",
+      title: "读图",
       html: `
         <ul>
           <li>蓝点是真实样本。</li>
           <li>橙线是模型当前画出的预测线。</li>
           <li>玫瑰色竖线是每个点的误差，也就是“预测值和真实值差了多少”。</li>
-          <li>当前训练步数：${regressionState.step} 步。</li>
+          <li>训练步数：${regressionState.step} 步。</li>
         </ul>
       `,
     },
     {
       title: "梯度下降原理",
       html: `
-        <p>梯度下降的核心就是反复问一句话：如果我把当前直线稍微往这个方向挪一点，误差会不会更小？</p>
+        <p>梯度下降的核心就是反复问定义：如果我把当前直线稍微往这个方向挪一点，误差会不会更小？</p>
         <ul>
           <li>参数 <strong>w</strong> 决定斜率，表示 x 每增加一点，y 大概增加多少。</li>
           <li>参数 <strong>b</strong> 决定截距，表示直线起点高度。</li>
@@ -1148,7 +1148,7 @@ function updateRegressionExplain() {
       `,
     },
     {
-      title: "现实里怎么用",
+      title: "应用示例",
       html: `
         <ul>
           <li>房价预测、销量预测、温度预测、作物产量估计，都是回归思路。</li>
@@ -1367,18 +1367,18 @@ function updateClusteringExplain() {
 
   renderBlocks("clusteringExplain", [
     {
-      title: "偷懒版一句话",
+      title: "概念",
       html: `<p>聚类就是：先不告诉模型正确答案，只让它自己把“彼此很像”的点抱成几团。</p>`,
     },
     {
-      title: "你现在看到的是什么",
+      title: "读图",
       html: `
         <ul>
           <li>每个彩色点是一个样本，但一开始它们没有标签。</li>
           <li>彩色叉号是每一类的中心点，也叫 centroid。</li>
           <li>当前 K 值：${clusteringState.k}，表示你想分成 ${clusteringState.k} 组。</li>
-          <li>当前阶段：<span class="inline-pill">${
-            clusteringState.phase === "assign" ? "下一步会分配样本" : "下一步会更新中心"
+          <li>下一步：<span class="inline-pill">${
+            clusteringState.phase === "assign" ? "分配样本" : "更新中心"
           }</span></li>
         </ul>
       `,
@@ -1395,12 +1395,12 @@ function updateClusteringExplain() {
       `,
     },
     {
-      title: "当前状态解读",
+      title: "迭代状态",
       html: `
         <ul>
           <li>各簇样本数量：${clusterCounts.map((count, index) => `簇 ${index + 1}: ${count}`).join("，")}</li>
           <li>中心移动量：${
-            clusteringState.lastShift === null ? "还没更新中心" : clusteringState.lastShift.toFixed(3)
+            clusteringState.lastShift === null ? "尚未更新" : clusteringState.lastShift.toFixed(3)
           }</li>
           <li>${
             clusteringState.stable
@@ -1411,7 +1411,7 @@ function updateClusteringExplain() {
       `,
     },
     {
-      title: "现实里怎么用",
+      title: "应用示例",
       html: `
         <ul>
           <li>电商用户分群、城市功能区分析、遥感地物粗分组都常用聚类。</li>
@@ -1431,7 +1431,7 @@ function renderApplicationCards() {
           <span class="app-tag">${card.task}</span>
           <h3>${card.title}</h3>
           <p>${card.description}</p>
-          <p><strong>为什么是它：</strong>${card.why}</p>
+          <p><strong>选择理由：</strong>${card.why}</p>
         </article>
       `
     )
@@ -1447,8 +1447,8 @@ function renderModelCards() {
         <article class="glossary-card">
           <span class="app-tag">${item.family}</span>
           <h3>${item.name}</h3>
-          <p><strong>它是干什么的：</strong>${item.use}</p>
-          <p><strong>什么时候适合看它：</strong>${item.fit}</p>
+          <p><strong>用途：</strong>${item.use}</p>
+          <p><strong>适用场景：</strong>${item.fit}</p>
         </article>
       `
     )
@@ -1464,9 +1464,9 @@ function renderGlossary() {
         <article class="glossary-card">
           <span class="app-tag">${item.tag}</span>
           <h3>${item.term}</h3>
-          <p><strong>一句话：</strong>${item.short}</p>
-          <p><strong>展开讲：</strong>${item.detail}</p>
-          <p><strong>例子：</strong>${item.example}</p>
+          <p><strong>定义：</strong>${item.short}</p>
+          <p><strong>说明：</strong>${item.detail}</p>
+          <p><strong>示例：</strong>${item.example}</p>
         </article>
       `
     )
@@ -1499,8 +1499,8 @@ function renderQuiz() {
   if (!quizState.answered) {
     renderBlocks("quizExplain", [
       {
-        title: "还没提交",
-        html: "<p>先选一个答案，再点“提交答案”。别怕错，错了才更容易记住。</p>",
+        title: "待作答",
+        html: "<p>选择答案后，点「提交答案」。</p>",
       },
     ]);
     return;
@@ -1509,7 +1509,7 @@ function renderQuiz() {
   const correct = quizState.selected === current.answer;
   renderBlocks("quizExplain", [
     {
-      title: correct ? "答对了" : "这题答错了",
+      title: correct ? "答对了" : "答错了",
       html: `
         <ul>
           <li>你的答案：${quizState.selected || "未选择"}</li>
@@ -1519,13 +1519,13 @@ function renderQuiz() {
       `,
     },
     {
-      title: "偷懒记忆法",
+      title: "任务速查",
       html: `
         <ul>
-          <li>问“属于哪一类” usually 是分类。</li>
-          <li>问“具体是多少” usually 是回归。</li>
-          <li>问“没有标签先分群” usually 是聚类。</li>
-          <li>问“图上每个像素是什么” usually 是分割。</li>
+          <li>问“属于哪一类”，通常是分类。</li>
+          <li>问“具体是多少”，通常是回归。</li>
+          <li>问“没有标签先分群”，通常是聚类。</li>
+          <li>问“图上每个像素是什么”，通常是分割。</li>
         </ul>
       `,
     },
@@ -1536,8 +1536,8 @@ function submitQuiz() {
   if (!quizState.selected) {
     renderBlocks("quizExplain", [
       {
-        title: "先选一个答案",
-        html: "<p>机器学习可以试错，这个小游戏也一样。你先随便选一个，再看解析。</p>",
+        title: "尚未选择答案",
+        html: "<p>选择一项后提交。</p>",
       },
     ]);
     return;
@@ -1570,7 +1570,9 @@ function activateTab(tabId) {
   if (!targetPanel) return;
 
   document.querySelectorAll(".tab-button").forEach((item) => {
-    item.classList.toggle("active", item.dataset.tab === tabId);
+    const isActive = item.dataset.tab === tabId;
+    item.classList.toggle("active", isActive);
+    item.setAttribute("aria-pressed", String(isActive));
   });
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     const isTarget = panel.id === tabId;
@@ -1635,12 +1637,8 @@ function bindAnchorLinks() {
 
 function bindSectionTracking() {
   const sectionIds = [
-    "positioning",
-    "guide",
     "modules",
-    "featured-examples",
-    "faq",
-    "roadmap",
+    "guide",
     "about",
   ];
 
@@ -1672,13 +1670,13 @@ function bindSectionTracking() {
   if (sectionIds.includes(currentHash)) {
     setCurrentSectionLink(currentHash);
   } else {
-    setCurrentSectionLink("positioning");
+    setCurrentSectionLink("modules");
   }
 }
 
 function initRevealOnScroll() {
   const targets = document.querySelectorAll(
-    ".content-section, .hero, .tab-bar, .panel-grid, .long-panel, .quiz-layout, .app-card-grid"
+    ".content-section:not(.module-shell), .long-panel, .quiz-layout, .app-card-grid"
   );
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1711,17 +1709,19 @@ function initRevealOnScroll() {
 
 function bindClassification() {
   const canvas = document.getElementById("classificationCanvas");
+  const knnSlider = document.getElementById("knnSlider");
   const bounds = { xMin: 0, xMax: 10, yMin: 0, yMax: 10, pad: 44 };
   document.getElementById("classTool").addEventListener("change", (event) => {
     classificationState.tool = event.target.value;
   });
   document.getElementById("classModel").addEventListener("change", (event) => {
     classificationState.model = event.target.value;
+    knnSlider.disabled = classificationState.model !== "knn";
     recomputeClassificationModel();
     drawClassification();
     updateClassificationExplain();
   });
-  document.getElementById("knnSlider").addEventListener("input", (event) => {
+  knnSlider.addEventListener("input", (event) => {
     classificationState.k = Number(event.target.value);
     document.getElementById("knnValue").textContent = String(classificationState.k);
     drawClassification();
@@ -1797,38 +1797,7 @@ function bindQuiz() {
   document.getElementById("quizNextBtn").addEventListener("click", nextQuiz);
 }
 
-function initIntroOverlay() {
-  const overlay = document.getElementById("introOverlay");
-  if (!overlay) {
-    document.body.classList.add("page-ready");
-    return;
-  }
-
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) {
-    overlay.remove();
-    document.body.classList.add("page-ready");
-    document.body.classList.remove("is-intro-active");
-    return;
-  }
-
-  document.body.classList.add("is-intro-active");
-
-  window.setTimeout(() => {
-    document.body.classList.add("page-ready");
-  }, 260);
-
-  const finishIntro = () => {
-    overlay.classList.add("is-hidden");
-    document.body.classList.remove("is-intro-active");
-    window.setTimeout(() => overlay.remove(), 240);
-  };
-
-  overlay.addEventListener("animationend", finishIntro, { once: true });
-}
-
 function init() {
-  initIntroOverlay();
   bindTabs();
   bindAnchorLinks();
   bindSectionTracking();
