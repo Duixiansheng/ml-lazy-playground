@@ -1,20 +1,20 @@
 const palette = {
-  blue: "#2f6db1",
-  blueFill: "rgba(47, 109, 177, 0.14)",
-  orange: "#ea8a3a",
-  orangeFill: "rgba(234, 138, 58, 0.14)",
-  green: "#2b8f72",
-  rose: "#c65b75",
-  text: "#223047",
-  soft: "#5d6b7d",
-  grid: "rgba(34, 48, 71, 0.1)",
-  bg: "#f8f2ea",
-  cluster: ["#4573c4", "#de8d3c", "#4da979", "#bf5a76"],
+  blue: "#79a9ff",
+  blueFill: "rgba(65, 114, 225, 0.18)",
+  orange: "#ffb578",
+  orangeFill: "rgba(250, 154, 81, 0.12)",
+  green: "#67dfbd",
+  rose: "#c09dff",
+  text: "#e8f1ff",
+  soft: "#97adc9",
+  grid: "rgba(154, 187, 241, 0.12)",
+  bg: "#0b1729",
+  cluster: ["#79a9ff", "#ffb578", "#6be0bd", "#c6a2f9"],
   clusterFill: [
-    "rgba(69, 115, 196, 0.13)",
-    "rgba(222, 141, 60, 0.13)",
-    "rgba(77, 169, 121, 0.13)",
-    "rgba(191, 90, 118, 0.13)",
+    "rgba(100, 144, 236, 0.14)",
+    "rgba(250, 168, 105, 0.11)",
+    "rgba(107, 224, 189, 0.11)",
+    "rgba(198, 162, 249, 0.11)",
   ],
 };
 
@@ -643,7 +643,7 @@ function drawAxes(ctx, canvas, bounds, labels) {
     ctx.stroke();
   }
 
-  ctx.strokeStyle = "rgba(34, 48, 71, 0.38)";
+  ctx.strokeStyle = "rgba(173, 201, 245, 0.37)";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(pad, pad);
@@ -1085,7 +1085,7 @@ function drawRegression() {
     };
     const a = toCanvasPoint(canvas, bounds, point);
     const b = toCanvasPoint(canvas, bounds, predicted);
-    ctx.strokeStyle = "rgba(198, 91, 117, 0.3)";
+    ctx.strokeStyle = "rgba(192, 157, 255, 0.34)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(a.x, a.y);
