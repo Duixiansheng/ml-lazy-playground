@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>对先生小课堂 · 机器学习</title>
+    <meta name="description" content="通过分类、回归和聚类实验学习机器学习。" />
+    <meta name="theme-color" content="#faf9f6" />
+    <link rel="icon" type="image/png" href="./ml-favicon-option-3.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="lab-ui.css" />
+  </head>
+  <body>
+    <script src="./cover-dissolve.js"></script>
+    <div class="page-shell" id="top">
+      <nav class="page-nav" aria-label="页面导航">
+        <a class="nav-brand" href="#top" aria-label="返回网站顶部">
+          <span class="nav-brand__mark" aria-hidden="true">对</span><span class="nav-brand__text">对先生小课堂</span>
+        </a>
+        <div class="nav-links">
+          <a class="page-nav__link" href="#modules" data-section-link="modules">实验室</a>
+          <a class="page-nav__link" href="#guide" data-section-link="guide">学习指南</a>
+          <a class="page-nav__link" href="#about" data-section-link="about">关于</a>
+        </div>
+      </nav>
+
+      <header class="hero" aria-label="机器学习实验室介绍">
+        <div class="hero-copy">
+          <h1>动手学<br /><span class="hero-title-line">机器学习</span></h1>
+          <p class="hero-lead">添加样本、调整参数，看看模型如何变化。</p>
+          <div class="hero-actions">
+            <a class="hero-cta hero-cta--primary" href="#classification" data-tab-target="classification">开始分类实验 <span aria-hidden="true">↓</span></a>
+            <a class="hero-cta hero-cta--outline" href="#guide">学习指南</a>
+          </div>
+        </div>
+        <figure class="hero-visual">
+          <svg viewBox="0 0 560 390" role="img" aria-label="蓝色与橙色样本分布在一条弯曲决策边界的两侧">
+            <defs>
+              <radialGradient id="fieldLight" cx=".34" cy=".27" r=".78">
+                <stop stop-color="#fffefa" />
+                <stop offset=".68" stop-color="#eae7df" />
+                <stop offset="1" stop-color="#d8cfc2" />
+              </radialGradient>
+              <pattern id="fieldGrid" width="27" height="27" patternUnits="userSpaceOnUse">
+                <path d="M 27 0 H 0 V 27" fill="none" stroke="#5e594f" stroke-opacity=".12" />
+              </pattern>
+            </defs>
+            <rect x="0" y="6" width="560" height="370" fill="url(#fieldGrid)" opacity=".52" />
+            <circle cx="280" cy="191" r="163" fill="url(#fieldLight)" stroke="#c3bdb1" />
+            <g fill="none" stroke="#726b5c" stroke-opacity=".26" stroke-width=".85">
+              <ellipse cx="280" cy="191" rx="161" ry="137" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="161" ry="109" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="161" ry="73" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="161" ry="33" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="128" ry="162" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="88" ry="162" transform="rotate(-34 280 191)" />
+              <ellipse cx="280" cy="191" rx="45" ry="162" transform="rotate(-34 280 191)" />
+              <path d="M 146 281 L 414 101 M 189 57 L 371 325" />
+            </g>
+            <path d="M 349 43 C 396 107 260 116 267 185 S 330 276 217 341" fill="none" stroke="#332e28" stroke-width="2" stroke-linecap="round" />
+            <g fill="#41628b" stroke="#faf9f6" stroke-width="1.4">
+              <circle cx="203" cy="115" r="5" /><circle cx="243" cy="105" r="4" />
+              <circle cx="222" cy="154" r="6" /><circle cx="255" cy="144" r="4" />
+              <circle cx="166" cy="177" r="4" /><circle cx="199" cy="205" r="6" />
+              <circle cx="235" cy="225" r="5" /><circle cx="193" cy="254" r="4" />
+            </g>
+            <g fill="#ad5836" stroke="#faf9f6" stroke-width="1.4">
+              <circle cx="372" cy="122" r="5" /><circle cx="399" cy="160" r="4" />
+              <circle cx="348" cy="169" r="6" /><circle cx="329" cy="207" r="4" />
+              <circle cx="385" cy="209" r="5" /><circle cx="348" cy="245" r="6" />
+              <circle cx="318" cy="281" r="5" /><circle cx="340" cy="300" r="4" />
+            </g>
+            <g fill="#655d52" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="1.5">
+              <text x="13" y="29">图 1</text>
+              <text x="547" y="366" text-anchor="end">决策边界</text>
+            </g>
+          </svg>
+          <figcaption class="hero-visual__legend">
+            <span><i class="dot dot-a"></i> 蓝色类</span>
+            <span><i class="dot dot-b"></i> 橙色类</span>
+            <span>边界示意</span>
+          </figcaption>
+        </figure>
+      </header>
+
+      <section id="modules" class="content-section module-shell" aria-labelledby="modulesTitle">
+        <div class="lab-heading">
+          <h2 id="modulesTitle">动手实验</h2>
+          <p>选择实验，观察参数如何影响结果。</p>
+        </div>
+      <nav class="tab-bar" aria-label="教学模块">
+        <button class="tab-button active" data-tab="classification" aria-pressed="true"><span aria-hidden="true">01</span>分类</button>
+        <button class="tab-button" data-tab="regression" aria-pressed="false"><span aria-hidden="true">02</span>回归</button>
+        <button class="tab-button" data-tab="clustering" aria-pressed="false"><span aria-hidden="true">03</span>聚类</button>
+        <button class="tab-button" data-tab="applications" aria-pressed="false"><span aria-hidden="true">04</span>应用与术语</button>
+      </nav>
+
+      <main>
+        <section id="classification" class="tab-panel active is-visible">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">监督学习 · 分类</p>
+              <h2>分类实验</h2>
+            </div>
+            <p class="section-copy">
+              切换模型，对比边界。再加几个点，看看边界怎么变。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>样本与模型</h3>
+              <label class="field">
+                <span>画布操作</span>
+                <select id="classTool">
+                  <option value="A">添加蓝点</option>
+                  <option value="B">添加橙点</option>
+                  <option value="inspect">查看预测</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>模型</span>
+                <select id="classModel">
+                  <option value="knn">k 近邻（kNN）</option>
+                  <option value="linear">线性分类器</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>邻居数 k <strong id="knnValue">3</strong></span>
+                <input id="knnSlider" type="range" min="1" max="9" step="2" value="3" />
+              </label>
+              <div class="button-row">
+                <button id="classSampleBtn">生成样本</button>
+                <button id="classClearBtn" class="secondary">清空样本</button>
+              </div>
+              <div class="micro-note">
+                <p>选「查看预测」，再点画布上的位置。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>决策边界</h3>
+              <canvas id="classificationCanvas" width="680" height="440" aria-label="分类画布，可点击添加样本或查看预测"></canvas>
+              <div class="legend">
+                <span><i class="dot dot-a"></i> 蓝色类</span>
+                <span><i class="dot dot-b"></i> 橙色类</span>
+                <span><i class="dot dot-query"></i> 预测点</span>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>实验解读</h3>
+              <div id="classificationExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="regression" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">监督学习 · 回归</p>
+              <h2>回归实验</h2>
+            </div>
+            <p class="section-copy">
+              逐步训练，观察拟合线如何靠近样本点。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>实验设置</h3>
+              <label class="field">
+                <span>学习率 <strong id="learningRateValue">0.04</strong></span>
+                <input id="learningRateSlider" type="range" min="1" max="20" step="1" value="4" />
+              </label>
+              <label class="field">
+                <span>噪声强度 <strong id="noiseValue">1.4</strong></span>
+                <input id="noiseSlider" type="range" min="0" max="30" step="1" value="14" />
+              </label>
+              <div class="button-row">
+                <button id="regressionSampleBtn">生成样本</button>
+                <button id="regressionStepBtn">训练一步</button>
+              </div>
+              <div class="button-row">
+                <button id="regressionAutoBtn">自动训练</button>
+                <button id="regressionResetBtn" class="secondary">重置模型</button>
+              </div>
+              <div class="micro-note">
+                <p>调整学习率，观察损失是否下降。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>拟合结果</h3>
+              <canvas id="regressionCanvas" width="680" height="440"></canvas>
+              <div class="stat-row">
+                <div class="stat-card">
+                  <span>斜率 w</span>
+                  <strong id="weightValue">0.00</strong>
+                </div>
+                <div class="stat-card">
+                  <span>截距 b</span>
+                  <strong id="biasValue">0.00</strong>
+                </div>
+                <div class="stat-card">
+                  <span>损失</span>
+                  <strong id="lossValue">0.00</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>实验解读</h3>
+              <div id="regressionExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="clustering" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">无监督学习 · 聚类</p>
+              <h2>聚类实验</h2>
+            </div>
+            <p class="section-copy">
+              观察没有标签的样本如何按距离分组。
+            </p>
+          </div>
+          <div class="panel-grid">
+            <article class="panel control-panel">
+              <h3>实验设置</h3>
+              <label class="field">
+                <span>聚类数 K</span>
+                <select id="clusterK">
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                </select>
+              </label>
+              <div class="button-row">
+                <button id="clusterSampleBtn">生成样本</button>
+                <button id="clusterInitBtn">初始化中心</button>
+              </div>
+              <div class="button-row">
+                <button id="clusterStepBtn">迭代一步</button>
+                <button id="clusterAutoBtn">自动迭代</button>
+              </div>
+              <div class="micro-note">
+                <p>先看样本分组，再看中心移动。</p>
+              </div>
+            </article>
+
+            <article class="panel canvas-panel">
+              <h3>分组结果</h3>
+              <canvas id="clusteringCanvas" width="680" height="440"></canvas>
+              <div class="legend">
+                <span><i class="dot dot-c1"></i> 簇 1</span>
+                <span><i class="dot dot-c2"></i> 簇 2</span>
+                <span><i class="dot dot-c3"></i> 簇 3</span>
+                <span><i class="dot dot-c4"></i> 簇 4</span>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>实验解读</h3>
+              <div id="clusteringExplain"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="applications" class="tab-panel">
+          <div class="section-head">
+            <div>
+              <h2>应用与术语</h2>
+            </div>
+            <p class="section-copy">
+              看应用案例、做练习，也可以查模型和术语。
+            </p>
+          </div>
+
+          <article class="panel long-panel">
+            <h3>模型库</h3>
+            <p class="section-copy glossary-copy">
+              了解常见模型的用途和适用场景。
+            </p>
+            <div class="glossary-grid" id="modelCards"></div>
+          </article>
+
+          <div class="app-card-grid" id="applicationCards"></div>
+
+          <div class="quiz-layout">
+            <article class="panel">
+              <h3>任务练习</h3>
+              <p class="quiz-intro">
+                为每个场景选择任务类型，提交后查看解析。
+              </p>
+              <div class="quiz-box">
+                <p class="quiz-label">题目</p>
+                <h4 id="quizQuestion"></h4>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="button-row">
+                  <button id="quizSubmitBtn">提交答案</button>
+                  <button id="quizNextBtn" class="secondary">下一题</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel explain-panel">
+              <h3>答案解析</h3>
+              <div id="quizExplain"></div>
+            </article>
+          </div>
+
+          <article class="panel long-panel">
+            <h3>任务速查</h3>
+            <div class="summary-grid">
+              <div>
+                <h4>分类</h4>
+                <p>已经知道类别名字，让模型学会“把新东西分到哪个桶里”。</p>
+              </div>
+              <div>
+                <h4>回归</h4>
+                <p>目标不是分类，而是预测一个连续数值，比如价格、温度、产量。</p>
+              </div>
+              <div>
+                <h4>聚类</h4>
+                <p>没有标准答案，先让模型自己发现“哪些东西看起来像一伙”。</p>
+              </div>
+              <div>
+                <h4>分割</h4>
+                <p>给图像里每个像素分配类别，常用于遥感、医学影像、自动驾驶。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel long-panel">
+            <h3>术语表</h3>
+            <p class="section-copy glossary-copy">
+              查阅定义和示例。
+            </p>
+            <div class="glossary-grid" id="glossaryCards"></div>
+          </article>
+        </section>
+      </main>
+      </section>
+
+      <section id="positioning" class="content-section intro-section">
+        <div class="section-head">
+          <div>
+            <h2>谁适合用</h2>
+          </div>
+          <p class="section-copy">
+            适合机器学习初学者，也可用于组内演示。
+          </p>
+        </div>
+        <div class="feature-strip">
+          <article class="feature-chip">
+            <h3>从实验入门</h3>
+            <p>先看模型怎么变，再读原理。</p>
+          </article>
+          <article class="feature-chip">
+            <h3>组内演示</h3>
+            <p>边操作边讲解，现场对比结果。</p>
+          </article>
+          <article class="feature-chip">
+            <h3>打开即用</h3>
+            <p>在浏览器中直接使用，无需登录。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="guide" class="content-section">
+        <div class="section-head">
+          <div>
+            <h2>学习指南</h2>
+          </div>
+          <p class="section-copy">
+            第一次来，可以从分类实验开始。
+          </p>
+        </div>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <span class="app-tag">快速体验</span>
+            <h3>分类边界</h3>
+            <p>对比不同模型画出的边界。</p>
+            <a class="inline-link" href="#classification" data-tab-target="classification">做分类实验</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">核心模块</span>
+            <h3>回归拟合</h3>
+            <p>调整学习率，观察训练结果。</p>
+            <a class="inline-link" href="#regression" data-tab-target="regression">做回归实验</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">学习入口</span>
+            <h3>无监督聚类</h3>
+            <p>看样本如何按相似性分组。</p>
+            <a class="inline-link" href="#clustering" data-tab-target="clustering">做聚类实验</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">知识补全</span>
+            <h3>模型与术语</h3>
+            <p>查模型用途和术语解释。</p>
+            <a class="inline-link" href="#applications" data-tab-target="applications">查看应用与术语</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">常见问题</span>
+            <h3>使用帮助</h3>
+            <p>了解设备支持和数据保存方式。</p>
+            <a class="inline-link" href="#faq">查看常见问题</a>
+          </article>
+          <article class="guide-card">
+            <span class="app-tag">项目状态</span>
+            <h3>项目进展</h3>
+            <p>查看近期更新和后续计划。</p>
+            <a class="inline-link" href="#roadmap">查看更新</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="featured-examples" class="content-section">
+        <div class="section-head">
+          <div>
+            <h2>推荐练习</h2>
+          </div>
+          <p class="section-copy">
+            按兴趣选一道练习。
+          </p>
+        </div>
+        <div class="example-grid">
+          <article class="example-card">
+            <span class="app-tag">入门示例</span>
+            <h3>对比分类边界</h3>
+            <p>生成样本，对比 kNN 与线性分类器的边界。</p>
+            <div class="example-meta">
+              <span>可视化</span>
+              <span>入门</span>
+            </div>
+            <a class="button-link" href="#classification" data-tab-target="classification">做分类实验</a>
+          </article>
+          <article class="example-card">
+            <span class="app-tag">进阶示例</span>
+            <h3>观察损失变化</h3>
+            <p>调整学习率，点「训练一步」，看损失怎么变。</p>
+            <div class="example-meta">
+              <span>训练过程</span>
+              <span>可重复</span>
+            </div>
+            <a class="button-link" href="#regression" data-tab-target="regression">做回归实验</a>
+          </article>
+          <article class="example-card">
+            <span class="app-tag">知识点示例</span>
+            <h3>为场景选任务</h3>
+            <p>用真实场景练习判断任务类型。</p>
+            <div class="example-meta">
+              <span>真实场景</span>
+              <span>任务判断</span>
+            </div>
+            <a class="button-link" href="#applications" data-tab-target="applications">做任务练习</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq" class="content-section">
+        <div class="section-head">
+          <div>
+            <h2>常见问题</h2>
+          </div>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>谁适合用？</summary>
+            <p>适合初学者和组内教学。</p>
+          </details>
+          <details class="faq-item">
+            <summary>需要登录或安装吗？</summary>
+            <p>直接打开网页即可，实验在浏览器内运行。</p>
+          </details>
+          <details class="faq-item">
+            <summary>实验数据会保存吗？</summary>
+            <p>刷新页面后，实验会恢复初始状态。</p>
+          </details>
+          <details class="faq-item">
+            <summary>支持手机吗？</summary>
+            <p>支持。大屏更方便看图。</p>
+          </details>
+          <details class="faq-item">
+            <summary>从哪里开始？</summary>
+            <p>任选一个实验，也可以按分类、回归、聚类的顺序学。</p>
+          </details>
+          <details class="faq-item">
+            <summary>还会更新吗？</summary>
+            <p>会继续补充案例和学习资料。</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="roadmap" class="content-section">
+        <div class="section-head">
+          <div>
+            <h2>项目进展</h2>
+          </div>
+          <p class="section-copy">
+            查看已完成的改动和后续计划。
+          </p>
+        </div>
+        <div class="roadmap-grid">
+          <article class="roadmap-card">
+            <span class="status-dot status-done"></span>
+            <p class="roadmap-label">已完成</p>
+            <h3>首页与实验入口</h3>
+            <p>更新了首页封面，把实验区移到首页前部。</p>
+          </article>
+          <article class="roadmap-card">
+            <span class="status-dot status-progress"></span>
+            <p class="roadmap-label">正在优化</p>
+            <h3>手机端体验</h3>
+            <p>调整小屏排版和操作提示。</p>
+          </article>
+          <article class="roadmap-card">
+            <span class="status-dot status-next"></span>
+            <p class="roadmap-label">计划新增</p>
+            <h3>案例和模型</h3>
+            <p>补充实际案例和学习索引。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" class="content-section">
+        <div class="section-head">
+          <div>
+            <h2>关于小课堂</h2>
+          </div>
+          <p class="section-copy">
+            对先生小课堂起初用于组内教学，现在也向自学者开放。
+          </p>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div>
+          <p class="site-footer__title">对先生小课堂</p>
+          <p class="site-footer__copy">机器学习入门实验</p>
+        </div>
+        <div class="site-footer__meta">
+          <a class="inline-link" href="https://github.com/duixiansheng/ml-lazy-playground" target="_blank" rel="noreferrer">项目源码</a>
+          <a class="inline-link" href="#top">返回顶部</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
