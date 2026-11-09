@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>对先生小课堂</title>
+    <title>对先生小课堂 | Machine Learning Lab</title>
+    <meta name="description" content="用交互式分类、回归与聚类实验直观理解机器学习。拖动参数，观察模型决策边界与训练过程。" />
+    <meta name="theme-color" content="#080d17" />
     <link rel="icon" type="image/png" href="./ml-favicon-option-3.png" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="lab-ui.css" />
   </head>
   <body>
     <div class="intro-overlay" id="introOverlay" aria-hidden="true">
@@ -19,46 +22,74 @@
     </div>
 
     <div class="page-shell" id="top">
-      <header class="hero">
+      <header class="hero" aria-label="机器学习实验室介绍">
         <div class="hero-copy">
-          <p class="eyebrow">Python 启动 · 浏览器交互 · 零额外依赖</p>
-          <h1>对先生小课堂</h1>
-          <p class="hero-lead">
-            这是对先生给组员做的机器学习学习用品。你不用先懂公式，先点、先看、先玩，再顺着解释去理解监督学习、回归、聚类、模型家族和真实应用；如果遇到名词卡住了，页面下方还有专门的名词词典。
-          </p>
-          <div class="hero-badges">
-            <span>分类</span>
-            <span>回归</span>
-            <span>聚类</span>
-            <span>模型库</span>
-            <span>应用判断小游戏</span>
-            <span>名词词典</span>
+          <div class="hero-kicker"><span class="hero-kicker__dot"></span> 对先生小课堂 <span class="hero-kicker__sep">/</span> MACHINE LEARNING LAB</div>
+          <p class="hero-edition">INTERACTIVE LEARNING · 2026</p>
+          <h1>让机器学习<br /><span class="hero-title-gradient">真正看得见。</span></h1>
+          <p class="hero-lead">不必先背公式。拖动参数、观察决策边界、亲手训练模型，用直观的实验理解分类、回归与聚类。</p>
+          <div class="hero-actions">
+            <a class="hero-cta hero-cta--primary" href="#classification" data-tab-target="classification">进入实验室 <span aria-hidden="true">↗</span></a>
+            <a class="hero-cta hero-cta--outline" href="#guide">探索课程 <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-metrics" aria-label="平台功能概览">
+            <div><strong>03</strong><span>核心实验</span></div>
+            <div><strong>04</strong><span>学习模块</span></div>
+            <div><strong>100%</strong><span>浏览器交互</span></div>
           </div>
         </div>
-        <aside class="hero-side">
-          <div class="hero-card">
-            <h2>3 步上手</h2>
-            <ol>
-              <li>先在每个模块里点“生成示例数据”。</li>
-              <li>再动滑块、点按钮，看图形如何变化。</li>
-              <li>最后读右侧解释，把图和概念对上。</li>
-            </ol>
+        <div class="hero-visual" aria-label="分类边界可视化示意">
+          <div class="hero-visual__top">
+            <div class="hero-visual__lights" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>playground / classifier</span>
+            <span class="hero-visual__state"><span></span> DEMO</span>
           </div>
-          <div class="hero-card">
-            <h2>给组员怎么用</h2>
-            <p>把它当成对先生给组员做的学习用品来用：先用模块建立直觉，再查模型和名词，最后回到项目任务里对应应用场景。</p>
+          <div class="hero-visual__chart">
+            <div class="hero-visual__chart-label">DECISION SPACE <span>2D / FEATURE MAP</span></div>
+            <svg viewBox="0 0 560 340" role="img" aria-label="蓝色与橙色样本点被一条弯曲决策边界分开，仅为示意图">
+              <defs>
+                <pattern id="heroGrid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M 28 0 L 0 0 0 28" fill="none" stroke="#aab8e7" stroke-opacity=".095" stroke-width="1"/></pattern>
+                <linearGradient id="heroDivide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6a80ff"/><stop offset=".6" stop-color="#8bc7ff"/><stop offset="1" stop-color="#5de4cf"/></linearGradient>
+                <radialGradient id="heroZone"><stop offset="0" stop-color="#4167ff" stop-opacity=".24"/><stop offset="1" stop-color="#4167ff" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="560" height="340" fill="url(#heroGrid)" />
+              <ellipse cx="156" cy="122" rx="220" ry="180" fill="url(#heroZone)"/>
+              <ellipse cx="444" cy="271" rx="196" ry="146" fill="#fba66d" opacity=".035"/>
+              <path class="hero-visual__boundary-glow" d="M 322 -10 C 365 45, 255 95, 300 155 S 405 245, 286 350" fill="none" stroke="#7a9cff" stroke-width="17" opacity=".09"/>
+              <path class="hero-visual__boundary" d="M 322 -10 C 365 45, 255 95, 300 155 S 405 245, 286 350" fill="none" stroke="url(#heroDivide)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 9"/>
+              <g fill="#7daaff" stroke="#c3d6ff" stroke-width="1.3">
+                <circle class="hero-visual__point" cx="95" cy="94" r="7"/><circle class="hero-visual__point" cx="166" cy="62" r="6"/><circle class="hero-visual__point" cx="205" cy="120" r="9"/>
+                <circle class="hero-visual__point" cx="130" cy="174" r="7"/><circle class="hero-visual__point" cx="226" cy="208" r="5"/><circle class="hero-visual__point" cx="79" cy="231" r="6"/>
+                <circle class="hero-visual__point" cx="172" cy="267" r="8"/><circle class="hero-visual__point" cx="245" cy="73" r="5"/>
+              </g>
+              <g fill="#f9b479" stroke="#ffd4a7" stroke-width="1.3">
+                <circle class="hero-visual__point" cx="412" cy="66" r="8"/><circle class="hero-visual__point" cx="479" cy="115" r="6"/><circle class="hero-visual__point" cx="379" cy="154" r="6"/>
+                <circle class="hero-visual__point" cx="467" cy="217" r="8"/><circle class="hero-visual__point" cx="389" cy="270" r="7"/><circle class="hero-visual__point" cx="510" cy="288" r="6"/>
+                <circle class="hero-visual__point" cx="337" cy="309" r="5"/><circle class="hero-visual__point" cx="508" cy="48" r="5"/>
+              </g>
+              <g fill="#9cafff" font-family="monospace" font-size="10" opacity=".85"><text x="22" y="28">FEATURE Y ↑</text><text x="436" y="318">FEATURE X →</text></g>
+            </svg>
           </div>
-        </aside>
+          <div class="hero-visual__footer">
+            <div><span class="hero-visual__legend"><i class="legend-blue"></i> Class A <i class="legend-orange"></i> Class B</span><small>交互概念预览 · 非实时模型输出</small></div>
+            <span class="hero-visual__formula">kNN <b>k = 3</b></span>
+          </div>
+          <div class="hero-float hero-float--left"><span>FEATURE SPACE</span><strong>02 <small>dimensions</small></strong></div>
+          <div class="hero-float hero-float--right"><span>LEARN BY DOING</span><strong>● <small>Interactive</small></strong></div>
+        </div>
       </header>
 
       <nav class="page-nav" aria-label="页面导航">
-        <a class="page-nav__link" href="#positioning" data-section-link="positioning">定位</a>
+        <a class="nav-brand" href="#top" aria-label="返回网站顶部">
+          <span class="nav-brand__mark">D.</span><span class="nav-brand__text">DUI LAB<small>ML PLAYGROUND</small></span>
+        </a>
+        <div class="nav-links"><a class="page-nav__link" href="#positioning" data-section-link="positioning">定位</a>
         <a class="page-nav__link" href="#guide" data-section-link="guide">导览</a>
         <a class="page-nav__link" href="#modules" data-section-link="modules">核心模块</a>
         <a class="page-nav__link" href="#featured-examples" data-section-link="featured-examples">示例</a>
         <a class="page-nav__link" href="#faq" data-section-link="faq">FAQ</a>
         <a class="page-nav__link" href="#roadmap" data-section-link="roadmap">更新</a>
-        <a class="page-nav__link" href="#about" data-section-link="about">About</a>
+        <a class="page-nav__link" href="#about" data-section-link="about">About</a></div>
       </nav>
 
       <section id="positioning" class="content-section intro-section">
@@ -525,7 +556,7 @@
           <p class="site-footer__copy">一个面向项目组成员的机器学习直觉学习站，强调可视化、轻交互和随开随用。</p>
         </div>
         <div class="site-footer__meta">
-          <span>当前版本：v0.3</span>
+          <span>界面版本：V1</span>
           <span>最后更新：2026-04-04</span>
           <a class="inline-link" href="https://github.com/duixiansheng/ml-lazy-playground" target="_blank" rel="noreferrer">GitHub 项目</a>
           <a class="inline-link" href="#top">返回顶部</a>
